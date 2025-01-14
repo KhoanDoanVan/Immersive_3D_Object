@@ -3,7 +3,7 @@
 
 
  ## Feature
--  Select and place .scn models in an AR environment
+-  Select and place .dae(.urdz, .scn) models in an AR environment
 -  Detect both horizontal and vertical surfaces for model placement
 
 <p align="center">
@@ -20,9 +20,9 @@
   ```c 
   git clone https://github.com/KhoanDoanVan/Immersive_3D_Object
 ```
-1. Open the project in Xcode:
+2. Open the project in Xcode:
 ```c
 cd ImmersiveExperienceApp
 open ImmersiveExperienceApp.xcodeproj
 ```
-1. Build and run the app on a physical device (ARKit is not supported on the simulator).
+3. Build and run the app on a physical device (ARKit is not supported on the simulator).
