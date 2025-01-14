@@ -12,7 +12,7 @@ import ARKit
 
 
 struct ContentView: View {
-    @State private var selectedModel: String = "decor" // Default model
+    @State private var selectedModel: String = "digitalCamera" // Default model
     @State private var showModelPicker: Bool = false
     @State private var shouldReset: Bool = false
 
@@ -73,7 +73,7 @@ extension UIColor {
 class ARViewController: UIViewController, ARSCNViewDelegate {
 
     var arView: ARSCNView!
-    var selectedModel: String = "digitalCamera" // Example model name
+    var selectedModel: String = "digitalCamera" /// Example model name
     var onResetScene: (() -> Void)?
 
     override func viewDidLoad() {
@@ -128,11 +128,42 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     // MARK: - Add 3D Object
+//    private func add3DObject(at raycastResult: ARRaycastResult) {
+//        let modelName = selectedModel // Use the selected model dynamically
+//        print("Adding 3D object: \(modelName)")
+//        
+//        // Load the 3D model
+//        guard let scene = SCNScene(named: "\(modelName).dae") else {
+//            print("Model not found: \(modelName)")
+//            return
+//        }
+//        
+//        // Create a container node
+//        let containerNode = SCNNode()
+//        containerNode.name = "container_\(modelName)"
+//        
+//        // Add child nodes from the scene to the container node
+//        for child in scene.rootNode.childNodes {
+//            let childClone = child.clone()
+//            containerNode.addChildNode(childClone)
+//        }
+//        
+//        // Set the position using raycast result
+//        containerNode.position = SCNVector3(
+//            raycastResult.worldTransform.columns.3.x,
+//            raycastResult.worldTransform.columns.3.y,
+//            raycastResult.worldTransform.columns.3.z
+//        )
+//        
+//        // Add the container node to the AR scene
+//        arView.scene.rootNode.addChildNode(containerNode)
+//    }
+    
     private func add3DObject(at raycastResult: ARRaycastResult) {
-        let modelName = selectedModel // Use the selected model dynamically
+        let modelName = selectedModel // Tên mô hình được chọn
         print("Adding 3D object: \(modelName)")
         
-        // Load the 3D model
+        // Load the .scn file
         guard let scene = SCNScene(named: "\(modelName).dae") else {
             print("Model not found: \(modelName)")
             return
@@ -146,6 +177,12 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         for child in scene.rootNode.childNodes {
             let childClone = child.clone()
             containerNode.addChildNode(childClone)
+        }
+        
+        if modelName == "digitalCamera" {
+            containerNode.scale = SCNVector3(1, 1, 1)
+        } else {
+            containerNode.scale = SCNVector3(0.005, 0.005, 0.005)
         }
         
         // Set the position using raycast result
@@ -203,7 +240,7 @@ struct ModelPicker: View {
     @Environment(\.dismiss) var dismiss
     @Binding var selectedModel: String
 
-    let models = ["digitalCamera","decor", "elephant"] // Available models
+    let models = ["digitalCamera","CathedralRuins_01", "foundationRuin_01", "PillarSegment_01", "RomanRail_01", "RomanTypeCol_01", "RuinArch_01", "RuinPillar_01", "RuinWallSegment_01", "RuinWallSegment_02", "SpeakingStones_01", "TempleRuin_01", "TempleRuin_02"] /// Available models
 
     var body: some View {
         NavigationStack {
